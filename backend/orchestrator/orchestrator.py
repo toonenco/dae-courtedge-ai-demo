@@ -15,7 +15,7 @@ group membership, with clear success/denied visualization.
 
 from typing import Dict, Any, List, Optional, TypedDict
 from langgraph.graph import StateGraph, END
-from langchain_anthropic import ChatAnthropic
+from langchain_aws import ChatBedrockConverse
 from langchain_core.messages import HumanMessage, SystemMessage
 import logging
 import json
@@ -175,15 +175,15 @@ class Orchestrator:
         self.token_exchange = get_multi_agent_exchange()
 
         # Initialize router LLM (fast model for routing decisions)
-        self.router_llm = ChatAnthropic(
-            model="claude-sonnet-4-20250514",
-            temperature=0,
+        self.router_llm = ChatBedrockConverse(
+            model=os.getenv("BEDROCK_MODEL_ID"),
+            region_name=os.getenv("AWS_REGION"),
         )
 
         # Initialize response LLM (for combining results)
-        self.response_llm = ChatAnthropic(
-            model="claude-sonnet-4-20250514",
-            temperature=0.7,
+        self.response_llm = ChatBedrockConverse(
+            model=os.getenv("BEDROCK_MODEL_ID"),
+            region_name=os.getenv("AWS_REGION"),
         )
 
         # Build the workflow
