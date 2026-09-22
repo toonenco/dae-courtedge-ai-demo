@@ -19,6 +19,7 @@ from langchain_aws import ChatBedrockConverse
 from langchain_core.messages import HumanMessage, SystemMessage
 import logging
 import json
+import os
 
 from auth.multi_agent_auth import (
     get_multi_agent_exchange,
